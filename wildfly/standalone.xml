@@ -153,25 +153,50 @@
                         <password>sa</password>
                     </security>
                 </datasource>
+                <!--<datasource jndi-name="java:/ServiceDS" pool-name="ServiceDS" enabled="true">-->
+                    <!--<connection-url>jdbc:mysql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_DATABASE}</connection-url>-->
+                    <!--<driver-class>org.mariadb.jdbc.Driver</driver-class>-->
+                    <!--<driver>org.mariadb</driver>-->
+                    <!--<security>-->
+                        <!--<user-name>${env.DB_USERNAME}</user-name>-->
+                        <!--<password>${env.DB_PASSWORD}</password>-->
+                    <!--</security>-->
+                    <!--<validation>-->
+                        <!--<valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>-->
+                        <!--<background-validation>true</background-validation>-->
+                        <!--<exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>-->
+                    <!--</validation>-->
+                <!--</datasource>-->
                 <datasource jndi-name="java:/ServiceDS" pool-name="ServiceDS" enabled="true">
-                    <connection-url>jdbc:mysql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_DATABASE}</connection-url>
-                    <driver-class>org.mariadb.jdbc.Driver</driver-class>
-                    <driver>org.mariadb</driver>
+                    <connection-url>jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_DATABASE}</connection-url>
+                    <driver-class>org.postgresql.Driver</driver-class>
+                    <driver>postgresql</driver>
+                    <pool>
+                        <min-pool-size>5</min-pool-size>
+                        <initial-pool-size>5</initial-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <prefill>true</prefill>
+                    </pool>
+                    <validation>
+                        <valid-connection-checker
+                                class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"></valid-connection-checker>
+                        <exception-sorter
+                                class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"></exception-sorter>
+                    </validation>
                     <security>
                         <user-name>${env.DB_USERNAME}</user-name>
                         <password>${env.DB_PASSWORD}</password>
                     </security>
-                    <validation>
-                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>
-                        <background-validation>true</background-validation>
-                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>
-                    </validation>
                 </datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
                     <driver name="org.mariadb" module="org.mariadb"/>
+                    <driver name="postgresql" module="org.postgresql">
+                        <driver-class>org.postgresql.Driver</driver-class>
+                        <!--<xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>-->
+                    </driver>
                 </drivers>
             </datasources>
         </subsystem>
@@ -264,11 +289,11 @@
                 </security-domain>
 
                 <!-- Security Domain for my Application -->
-                <security-domain name="${env.APPLICATION_DOMAIN}" cache-type="default">
-                    <authentication>
-                    
-                    <authentication/>
-                </security-domain>
+                <!--<security-domain name="${env.APPLICATION_DOMAIN}" cache-type="default">-->
+                    <!--<authentication>-->
+                    <!---->
+                    <!--<authentication/>-->
+                <!--</security-domain>-->
 
 
             </security-domains>

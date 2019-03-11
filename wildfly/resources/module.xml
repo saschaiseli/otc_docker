@@ -1,9 +1,0 @@
-<module name="org.mariadb" xmlns="urn:jboss:module:1.5">
-
-    <resources>
-        <resource-root path="mariadb-java-client-2.3.0.jar"/>
-    </resources>
-
-    <dependencies>
-    </dependencies>
-</module>

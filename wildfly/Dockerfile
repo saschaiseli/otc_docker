@@ -20,9 +20,18 @@ ENV INSTALL_DIR=/opt/jboss/wildfly \
 
 RUN /opt/jboss/wildfly/bin/add-user.sh admin secret --silent
 
+USER root
 RUN mkdir -p $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
-COPY resources/module.xml $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
-COPY resources/mariadb-java-client-2.3.0.jar $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
-COPY standalone.xml $CONFIG_DIR
+COPY resources/mariadb/module.xml $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
+COPY resources/mariadb/mariadb-java-client-2.3.0.jar $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
+RUN chown -R jboss  /opt/jboss/wildfly/modules/system/layers/base/org/mariadb
 
+
+RUN mkdir -p $INSTALL_DIR/modules/system/layers/base/org/postgresql/main
+COPY resources/postgres/module.xml $INSTALL_DIR/modules/system/layers/base/org/postgresql/main
+COPY resources/postgres/postgresql-42.2.5.jar $INSTALL_DIR/modules/system/layers/base/org/postgresql/main
+RUN chown -R jboss  /opt/jboss/wildfly/modules/system/layers/base/org/postgresql
+
+COPY standalone.xml $CONFIG_DIR
+USER jboss
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
