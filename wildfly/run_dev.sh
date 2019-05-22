@@ -25,4 +25,4 @@ if [ -z "$DB_DATABASE_DEV" ]; then
     exit 1
 fi
 
-docker run -it --rm --net=host -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=$DB_PORT_DEV -e DB_DATABASE=$DB_DATABASE_DEV iselisa/wildfly:14.0.0
+docker run -it --rm --net=host -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=$DB_PORT_DEV -e DB_DATABASE=$DB_DATABASE_DEV iselisa/wildfly:$1

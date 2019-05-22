@@ -6,25 +6,27 @@ ARG PASS="secret"
 ARG HOST="host"
 ARG PORT=3306
 ARG DATABASE="dbname"
+ARG ADMIN_PW="secret"
 
 ENV DB_USERNAME=${USER}
 ENV DB_PASSWORD=${PASS}
 ENV DB_HOST=${HOST}
 ENV DB_PORT=${PORT}
 ENV DB_DATABASE=${DATABASE}
+ENV JBOSS_ADMIN_PASSWORD=${ADMIN_PW}
 
 
 ENV INSTALL_DIR=/opt/jboss/wildfly \
     CONFIG_DIR=/opt/jboss/wildfly/standalone/configuration \
     DEPLOYMENT_DIR=/opt/jboss/wildfly/standalone/deployments
 
-RUN /opt/jboss/wildfly/bin/add-user.sh admin secret --silent
+RUN /opt/jboss/wildfly/bin/add-user.sh admin $JBOSS_ADMIN_PASSWORD --silent
 
 USER root
-RUN mkdir -p $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
-COPY resources/mariadb/module.xml $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
-COPY resources/mariadb/mariadb-java-client-2.3.0.jar $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
-RUN chown -R jboss  /opt/jboss/wildfly/modules/system/layers/base/org/mariadb
+#RUN mkdir -p $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
+#COPY resources/mariadb/module.xml $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
+#COPY resources/mariadb/mariadb-java-client-2.3.0.jar $INSTALL_DIR/modules/system/layers/base/org/mariadb/main
+#RUN chown -R jboss  /opt/jboss/wildfly/modules/system/layers/base/org/mariadb
 
 
 RUN mkdir -p $INSTALL_DIR/modules/system/layers/base/org/postgresql/main
