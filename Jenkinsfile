@@ -7,7 +7,7 @@ pipeline {
       }
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          sh 'sh ./build.sh latest'
+          sh 'sh ./build.sh latest env.BRANCH_NAME ${currentBuild.number}'
          }
       }
     }
@@ -27,7 +27,7 @@ pipeline {
       }
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-           sh "sh ./build.sh ${currentBuild.number}"
+           sh "sh ./build.sh ${currentBuild.number} env.BRANCH_NAME ${currentBuild.number}"
          }
       }
     }
