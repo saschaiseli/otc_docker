@@ -17,7 +17,7 @@ pipeline {
       }
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-           sh "sh ./push.sh latest $USERNAME $PASSWORD"
+          sh 'sh ./build.sh latest'
          }
       }
     }
