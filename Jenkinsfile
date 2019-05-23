@@ -1,43 +1,17 @@
 pipeline {
   agent any
   stages {
-    stage('Develepment Build') {
-      when{
-         branch 'develop'
-      }
+    stage('Build') {
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          sh 'sh ./build.sh latest env.BRANCH_NAME ${currentBuild.number}'
+          sh "sh ./build.sh ${env.BRANCH_NAME} ${currentBuild.number}"
          }
       }
     }
-    stage('Develepment Push') {
-      when{
-         branch 'develop'
-      }
+    stage('Push Image') {
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-           sh "sh ./push.sh latest $USERNAME $PASSWORD"
-         }
-      }
-    }
-    stage('Production Build') {
-      when{
-         branch 'master'
-      }
-      steps {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-           sh "sh ./build.sh ${currentBuild.number} env.BRANCH_NAME ${currentBuild.number}"
-         }
-      }
-    }
-    stage('Production Push') {
-      when{
-         branch 'master'
-      }
-      steps {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-           sh "sh ./push.sh ${currentBuild.number} $USERNAME $PASSWORD"
+           sh "sh ./push.sh ${env.BRANCH_NAME} ${currentBuild.number} ${USERNAME} ${PASSWORD}"
          }
       }
     }
