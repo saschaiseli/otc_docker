@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker build -t iselisa/wildfly:14.0.0 .
+docker build -t iselisa/wildfly:18.0.0 .
